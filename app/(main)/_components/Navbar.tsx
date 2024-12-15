@@ -1,6 +1,6 @@
 import cx from '@/utils/cx';
 import Link from 'next/link';
-import { GithubIcon, TerminalIcon } from '@/components/icons';
+import { GithubIcon, TerminalIcon } from '@/app/_components/icons';
 
 const NavLink: React.FC<React.HTMLProps<HTMLAnchorElement>> = ({
   href = '/',
