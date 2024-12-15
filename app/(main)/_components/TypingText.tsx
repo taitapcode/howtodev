@@ -2,9 +2,9 @@
 import { TypeAnimation } from 'react-type-animation';
 
 const generateTypingText = (contents: string[], delay: number) => {
-  const textArray: (string | number)[] = [];
+  const textArray: (string | number)[] = [200];
   contents.forEach((content) =>
-    textArray.push(`The place I can share to you how I learned ${content}.`, delay),
+    textArray.push(`The place I can share with you how I learned ${content}.`, delay),
   );
 
   return textArray;
@@ -13,7 +13,20 @@ const generateTypingText = (contents: string[], delay: number) => {
 const TypingText: React.FC = () => {
   return (
     <TypeAnimation
-      sequence={generateTypingText(['Web Development', 'Python', 'C++'], 1000)}
+      sequence={generateTypingText(
+        [
+          'HTML',
+          'CSS',
+          'Javascript',
+          'Typescript',
+          'React',
+          'NextJS',
+          'NodeJS',
+          'Python',
+          'C++',
+        ],
+        1000,
+      )}
       wrapper='span'
       speed={50}
       repeat={Infinity}

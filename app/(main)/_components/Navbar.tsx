@@ -1,46 +1,34 @@
-import cn from '@/utils/cn';
-import { createClient } from '@/utils/supabase/client';
 import Link from 'next/link';
+import { Button } from '@/components/ui/button';
 import { GithubIcon, TerminalIcon } from '@/components/icons';
-import { If, Then, Else } from 'react-if';
 
-interface NavLinkProps extends React.PropsWithChildren {
+interface NavlinkProps extends React.PropsWithChildren {
   to: string;
 }
 
-const NavLink: React.FC<NavLinkProps> = ({ to = '/', children }) => {
+const NavLink: React.FC<NavlinkProps> = ({ to, children }) => {
   return (
-    <Link className={cn('flex items-center hover:underline')} href={to}>
-      {children}
-    </Link>
+    <Button variant='link' asChild>
+      <Link className='px-2' href={to}>
+        {children}
+      </Link>
+    </Button>
   );
 };
 
 const Navbar: React.FC = async () => {
-  const supabase = createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
   return (
     <nav className='flex h-16 select-none items-center justify-around'>
       <Link className='group flex items-center gap-2 text-xl font-bold' href='/'>
         <TerminalIcon width={20} height={20} />
         HowToDev
       </Link>
-      <div className='flex items-center gap-4'>
-        <If condition={!user}>
-          <Then>
-            <Link href='/login'>Log in</Link>
-            <Link href='/signup'>Sign up</Link>
-          </Then>
-          <Else>
-            <NavLink to='/#about'>About</NavLink>
-            <NavLink to='/blog'>Blogs</NavLink>
-          </Else>
-        </If>
+      <div className='flex items-center gap-2'>
+        <NavLink to='/about'>About</NavLink>
+        <NavLink to='/blogs'>Blogs</NavLink>
         <NavLink to='https://github.com/taitapcode/howtodev'>
-          <GithubIcon widths={14} height={14} />
-          Soruce
+          <GithubIcon />
+          Source
         </NavLink>
       </div>
     </nav>

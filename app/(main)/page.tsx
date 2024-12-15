@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import GlowingText from './_components/GlowingText';
+import Heading, { HeadingLink } from './_components/Heading';
 import TypingText from './_components/TypingText';
 
 export const metadata: Metadata = {
@@ -8,13 +8,18 @@ export const metadata: Metadata = {
 
 export default function Home() {
   return (
-    <div className='flex justify-center'>
-      <div className='flex h-96 flex-col items-center justify-center'>
-        <div className='flex items-center gap-3 text-6xl'>
-          <span className='font-bold'>Wellcome to</span>
-          <GlowingText>HowToDev</GlowingText>
-        </div>
+    <div className='flex flex-col items-center'>
+      <div className='mb-7 mt-52 flex flex-col items-center justify-center'>
+        <Heading />
         <TypingText />
+      </div>
+      <div className='flex gap-10'>
+        <HeadingLink to='/about' delay={0.2}>
+          About me
+        </HeadingLink>
+        <HeadingLink to='/blogs' delay={0.3} variant='outline'>
+          Blogs
+        </HeadingLink>
       </div>
     </div>
   );
