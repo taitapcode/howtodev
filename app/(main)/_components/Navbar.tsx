@@ -1,19 +1,26 @@
-import cx from '@/utils/cx';
+import cn from '@/utils/cn';
+import { createClient } from '@/utils/supabase/client';
 import Link from 'next/link';
-import { GithubIcon, TerminalIcon } from '@/app/_components/icons';
+import { GithubIcon, TerminalIcon } from '@/components/icons';
+import { If, Then, Else } from 'react-if';
 
-const NavLink: React.FC<React.HTMLProps<HTMLAnchorElement>> = ({
-  href = '/',
-  children,
-}) => {
+interface NavLinkProps extends React.PropsWithChildren {
+  to: string;
+}
+
+const NavLink: React.FC<NavLinkProps> = ({ to = '/', children }) => {
   return (
-    <Link className={cx('flex items-center hover:underline')} href={href}>
+    <Link className={cn('flex items-center hover:underline')} href={to}>
       {children}
     </Link>
   );
 };
 
-const Navbar: React.FC = () => {
+const Navbar: React.FC = async () => {
+  const supabase = createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   return (
     <nav className='flex h-16 select-none items-center justify-around'>
       <Link className='group flex items-center gap-2 text-xl font-bold' href='/'>
@@ -21,13 +28,17 @@ const Navbar: React.FC = () => {
         HowToDev
       </Link>
       <div className='flex items-center gap-4'>
-        <NavLink href='/#about'>About</NavLink>
-        <NavLink href='/projects'>Projects</NavLink>
-        <NavLink href='/blog'>Blogs</NavLink>
-        <NavLink
-          className='flex items-center gap-0.5'
-          href='https://github.com/taitapcode'
-        >
+        <If condition={!user}>
+          <Then>
+            <Link href='/login'>Log in</Link>
+            <Link href='/signup'>Sign up</Link>
+          </Then>
+          <Else>
+            <NavLink to='/#about'>About</NavLink>
+            <NavLink to='/blog'>Blogs</NavLink>
+          </Else>
+        </If>
+        <NavLink to='https://github.com/taitapcode/howtodev'>
           <GithubIcon widths={14} height={14} />
           Soruce
         </NavLink>
