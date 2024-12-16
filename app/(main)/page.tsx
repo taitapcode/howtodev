@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
-import Heading, { HeadingLink } from './_components/Heading';
+import Heading from './_components/Heading';
 import TypingText from './_components/TypingText';
+import NavLink from './_components/NavLink';
 
 export const metadata: Metadata = {
   title: 'HowToDev - Home',
@@ -14,12 +15,12 @@ export default function Home() {
         <TypingText />
       </div>
       <div className='flex gap-10'>
-        <HeadingLink to='/about' delay={0.2}>
+        <NavLink to='/about' delay={0.2}>
           About me
-        </HeadingLink>
-        <HeadingLink to='/blogs' delay={0.3} variant='outline'>
+        </NavLink>
+        <NavLink to='/blogs' delay={0.3} variant='outline'>
           Blogs
-        </HeadingLink>
+        </NavLink>
       </div>
     </div>
   );

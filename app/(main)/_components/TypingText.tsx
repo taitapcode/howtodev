@@ -4,7 +4,7 @@ import { TypeAnimation } from 'react-type-animation';
 const generateTypingText = (contents: string[], delay: number) => {
   const textArray: (string | number)[] = [200];
   contents.forEach((content) =>
-    textArray.push(`The place I can share with you how I learned ${content}.`, delay),
+    textArray.push(`Where I can share with you how I learned ${content}.`, delay),
   );
 
   return textArray;
@@ -24,6 +24,7 @@ const TypingText: React.FC = () => {
           'NodeJS',
           'Python',
           'C++',
+          'Algorithms',
         ],
         1000,
       )}

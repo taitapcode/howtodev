@@ -2,7 +2,7 @@
   "IDX.aI.enableInlineCompletion": true,
   "IDX.aI.enableCodebaseIndexing": true,
   "editor.fontLigatures": true,
-  "editor.fontSize": 16,
+  "editor.fontSize": 18,
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.formatOnSave": true,
   "editor.formatOnPaste": true,
@@ -10,9 +10,15 @@
   "vim.leader": "<space>",
   "vim.handleKeys": {
     "<C-a>": false,
-    "<C-f>": false
+    "<C-f>": false,
+    "<C-x>": false,
+    "<C-c>": false,
+    "<C-v>": false,
+    "<C-b>": false,
+    "<C-i>": false
   },
   "extensions.experimental.affinity": {
     "vscodevim.vim": 1
-  }
+  },
+  "editor.linkedEditing": true
 }
