@@ -2,9 +2,9 @@ import type { Database } from './database.types';
 import { createServerClient } from '@supabase/ssr';
 import { NextResponse, type NextRequest } from 'next/server';
 
-export async function updateSession(request: NextRequest) {
+export async function updateSession(req: NextRequest) {
   let supabaseResponse = NextResponse.next({
-    request,
+    request: req,
   });
 
   const supabase = createServerClient<Database>(
@@ -13,12 +13,12 @@ export async function updateSession(request: NextRequest) {
     {
       cookies: {
         getAll() {
-          return request.cookies.getAll();
+          return req.cookies.getAll();
         },
         setAll(cookiesToSet) {
-          cookiesToSet.forEach(({ name, value }) => request.cookies.set(name, value));
+          cookiesToSet.forEach(({ name, value }) => req.cookies.set(name, value));
           supabaseResponse = NextResponse.next({
-            request,
+            request: req,
           });
           cookiesToSet.forEach(({ name, value, options }) =>
             supabaseResponse.cookies.set(name, value, options),
@@ -35,19 +35,25 @@ export async function updateSession(request: NextRequest) {
   // IMPORTANT: DO NOT REMOVE auth.getUser()
 
   const {
-    // data: { user },
+    data: { user },
   } = await supabase.auth.getUser();
 
-  // if (
-  //   !user &&
-  //   !request.nextUrl.pathname.startsWith('/login') &&
-  //   !request.nextUrl.pathname.startsWith('/auth')
-  // ) {
-  //   // no user, potentially respond by redirecting the user to the login page
-  //   const url = request.nextUrl.clone();
-  //   url.pathname = '/login';
-  //   return NextResponse.redirect(url);
-  // }
+  if (
+    !user &&
+    req.nextUrl.pathname.includes('/admin') &&
+    !req.nextUrl.pathname.endsWith('/admin/login')
+  ) {
+    // no user, potentially respond by redirecting the user to the login page
+    const url = req.nextUrl.clone();
+    url.pathname = '/admin/login';
+    return NextResponse.redirect(url);
+  }
+
+  if (user && req.nextUrl.pathname.endsWith('/admin/login')) {
+    const url = req.nextUrl.clone();
+    url.pathname = '/admin';
+    return NextResponse.redirect(url);
+  }
 
   // IMPORTANT: You *must* return the supabaseResponse object as it is.
   // If you're creating a new response object with NextResponse.next() make sure to:
