@@ -29,7 +29,7 @@ const Heading: React.FC = () => {
       animate={{ y: 0, opacity: 1 }}
       transition={{ ease: 'easeInOut', duration: 0.5 }}
     >
-      <span className='font-bold'>Wellcome to</span>
+      <span className='font-bold'>Welcome to</span>
       <GlowingText>HowToDev</GlowingText>
     </motion.div>
   );
