@@ -38,6 +38,7 @@ export async function updateSession(req: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser();
 
+  // Redirect logic for login and admin pages
   if (
     !user &&
     req.nextUrl.pathname.includes('/admin') &&

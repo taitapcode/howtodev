@@ -1,21 +1,14 @@
 'use client';
-
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@/components/ui/form';
+import { Form } from '@/components/ui/form';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { loginAction } from './actions';
-import { useActionState } from 'react';
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { createClient } from '@/lib/supabase/client';
+import { EmailFormField, PasswordFormField } from './_components/LoginFormFields';
 
 const loginSchema = z.object({
   email: z.string().email('Invalid email address'),
@@ -25,7 +18,9 @@ const loginSchema = z.object({
 type LoginForm = z.infer<typeof loginSchema>;
 
 export default function Login() {
-  const [state, formAction] = useActionState(loginAction, null);
+  const router = useRouter();
+  const [error, setError] = useState<string | null>(null);
+
   const form = useForm<LoginForm>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -33,6 +28,23 @@ export default function Login() {
       password: '',
     },
   });
+
+  const onSubmit = async (data: LoginForm) => {
+    setError(null);
+    const supabase = createClient();
+
+    const { error } = await supabase.auth.signInWithPassword({
+      email: data.email,
+      password: data.password,
+    });
+
+    if (error) {
+      setError(error.message);
+      return;
+    }
+
+    router.push('/admin');
+  };
 
   return (
     <motion.div
@@ -62,75 +74,21 @@ export default function Login() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5, delay: 0.4 }}
-            action={formAction}
+            onSubmit={form.handleSubmit(onSubmit)}
             className='space-y-4'
           >
-            {state?.message && (
+            {error && (
               <motion.div
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.3 }}
                 className='rounded-md bg-red-500 p-3 text-sm text-white'
               >
-                {state.message}
+                {error}
               </motion.div>
             )}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.5 }}
-            >
-              <FormField
-                control={form.control}
-                name='email'
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className='text-gray-200'>Email</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder='admin@example.com'
-                        type='email'
-                        {...field}
-                        className='border-white/20 bg-white/10 text-white placeholder-gray-400 focus:border-white/40'
-                      />
-                    </FormControl>
-                    {state?.errors?.email && (
-                      <div className='text-sm text-red-400'>{state.errors.email[0]}</div>
-                    )}
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </motion.div>
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.6 }}
-            >
-              <FormField
-                control={form.control}
-                name='password'
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className='text-gray-200'>Password</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder='••••••••'
-                        type='password'
-                        {...field}
-                        className='border-white/20 bg-white/10 text-white placeholder-gray-400 focus:border-white/40'
-                      />
-                    </FormControl>
-                    {state?.errors?.password && (
-                      <div className='text-sm text-red-400'>
-                        {state.errors.password?.[0]}
-                      </div>
-                    )}
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </motion.div>
+            <EmailFormField control={form.control} />
+            <PasswordFormField control={form.control} />
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}

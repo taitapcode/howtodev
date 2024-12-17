@@ -1,8 +1,14 @@
+import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { TerminalIcon } from '@/components/icons';
 import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
+import { logoutAction } from './actions';
+
+export const metadata: Metadata = {
+  title: 'Howtodev - Admin',
+};
 
 export async function getCurrentUser() {
   const supabase = await createClient();
@@ -13,7 +19,7 @@ export async function getCurrentUser() {
 
   if (error) {
     console.error('Error fetching user:', error);
-    redirect('/login'); // Redirect to login if there's an error
+    redirect('/admin/login'); // Redirect to login if there's an error
   }
 
   return user;
@@ -21,7 +27,6 @@ export async function getCurrentUser() {
 
 export default async function AdminPage() {
   const user = await getCurrentUser();
-  console.log(user);
 
   return (
     <div className='flex h-screen'>
@@ -31,12 +36,18 @@ export default async function AdminPage() {
           Admin Panel
         </Link>
         <div className='flex flex-1 flex-col p-4'>
-          <Button className='mt-auto'>Logout</Button>
+          <form action={logoutAction} className='mt-auto'>
+            <Button type='submit' variant='destructive' className='w-full'>
+              Logout
+            </Button>
+          </form>
         </div>
       </nav>
       <div className='flex-1 p-4'>
         <h1 className='text-2xl'>Admin Dashboard</h1>
-        {/* Add your admin content here */}
+        <div className='mt-4'>
+          <p>Welcome, {user?.email}</p>
+        </div>
       </div>
     </div>
   );
