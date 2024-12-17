@@ -46,7 +46,7 @@ export function FormFieldWithMotion<T extends FieldValues>({
                 className='border-white/20 bg-white/10 text-white placeholder-gray-400 focus:border-white/40'
               />
             </FormControl>
-            <FormMessage />
+            <FormMessage className='text-red-300' />
           </FormItem>
         )}
       />
