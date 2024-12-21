@@ -4,11 +4,11 @@ import Link from 'next/link'
 import { cva, type VariantProps } from 'class-variance-authority'
 import { cn } from '@/lib/utils'
 
-const buttonVariants = cva('grid w-20 place-items-center rounded-none px-4 py-2', {
+const buttonVariants = cva('grid place-items-center rounded-sm px-7 py-3', {
   variants: {
     variant: {
-      default: '!bg-emerald-500',
-      outline: 'border-2 border-emerald-500 text-emerald-500',
+      default: 'bg-emerald-500 hover:bg-emerald-600',
+      outline: 'border-2 border-emerald-500 text-emerald-500 hover:bg-emerald-500/10',
     },
   },
 })
@@ -19,6 +19,7 @@ interface HeadingLinkProps extends VariantProps<typeof buttonVariants> {
   delay?: number
 }
 
+const MotionLink = motion.create(Link)
 export default function HeadingLink({
   href,
   variant = 'default',
@@ -26,13 +27,14 @@ export default function HeadingLink({
   delay = 0,
 }: HeadingLinkProps) {
   return (
-    <motion.div
+    <MotionLink
       className={cn(buttonVariants({ variant }))}
       initial={{ opacity: 0, y: 30 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay }}
+      href={href}
     >
-      <Link href={href}>{children}</Link>
-    </motion.div>
+      {children}
+    </MotionLink>
   )
 }
