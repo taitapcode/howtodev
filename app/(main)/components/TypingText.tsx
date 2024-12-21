@@ -32,7 +32,7 @@ export default function TypingText({ texts, speed = 50, delay = 1000 }: TypingTe
         // Deleting
         if (displayText.length > 0) {
           // Check if prefix of current and next text is the same
-          if (nextText.startsWith(displayText.slice(0, displayText.length))) {
+          if (nextText.startsWith(displayText)) {
             // Stop deleting and start typing the rest of the next text
             setIsDeleting(false)
             setCurrentTextIndex(nextTextIndex)
@@ -57,6 +57,7 @@ export default function TypingText({ texts, speed = 50, delay = 1000 }: TypingTe
     <motion.p
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
       className='flex items-center after:content-["|"]'
     >
       {displayText}
