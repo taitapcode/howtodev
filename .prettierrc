@@ -6,6 +6,7 @@
   "trailingComma": "es5",
   "printWidth": 90,
   "arrowParens": "avoid",
+  "noSemi": false,
   "plugins": ["prettier-plugin-tailwindcss"],
   "tailwindFunctions": ["clsx", "cn", "cva"]
 }
