@@ -1,15 +1,3 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# HowToDev: Where I Share With You How I Learn
 
-## Getting Started
-
-First, run the development server:
-
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+HowToDev is a platform where I share with you how I learn. I will share my learnings, my mistakes, and my solutions. I will also share my projects and my experiences.

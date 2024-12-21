@@ -1,6 +1,11 @@
+import { Metadata } from 'next'
 import Heading from './components/Heading'
 import TypingText from './components/TypingText'
 import HeadingLink from './components/HeadingLink'
+
+export const metadata: Metadata = {
+  title: 'Howtodev - Home',
+}
 
 const generateTexts = (prefix: string, texts: string[]) => {
   return texts.map(text => `${prefix} ${text}`)
@@ -26,7 +31,7 @@ export default function Home() {
         <HeadingLink variant='default' href='/about'>
           About
         </HeadingLink>
-        <HeadingLink variant='outline' href='/blogs' delay={0.1}>
+        <HeadingLink variant='outline' href='/blogs' delay={0.15}>
           Blogs
         </HeadingLink>
       </div>
